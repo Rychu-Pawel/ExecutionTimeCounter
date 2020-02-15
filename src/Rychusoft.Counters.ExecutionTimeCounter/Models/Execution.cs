@@ -14,6 +14,9 @@ namespace Rychusoft.Counters.ExecutionTime.Models
 
         public Execution(string sectionName)
         {
+            if (string.IsNullOrWhiteSpace(sectionName))
+                throw new ArgumentNullException(nameof(sectionName));
+
             this.sw = new Stopwatch();
             this.SectionName = sectionName;
         }
