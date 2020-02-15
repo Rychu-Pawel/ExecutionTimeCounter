@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace Rychusoft.Counters.ExecutionTime.Models
+namespace Rychusoft.Counters.ExecutionTime
 {
     public class Execution
     {

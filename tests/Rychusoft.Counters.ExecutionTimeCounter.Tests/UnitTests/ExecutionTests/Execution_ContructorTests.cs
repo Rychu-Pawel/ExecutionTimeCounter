@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Rychusoft.Counters.ExecutionTime.Models;
+using Rychusoft.Counters.ExecutionTime;
 using System;
 
 namespace Rychusoft.Counters.ExecutionTimeCounter.Tests.UnitTests.ExecutionTests
