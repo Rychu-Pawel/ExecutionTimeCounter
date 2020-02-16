@@ -1,19 +1,24 @@
 ﻿using NUnit.Framework;
-using Rychusoft.Counters.ExecutionTime;
+using Rychusoft.Counters.ExecutionTime.Exceptions;
 using System;
 using System.Threading;
 
-namespace Rychusoft.Counters.ExecutionTimeCounter.Tests.UnitTests.ExecutionTests
+namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTests
 {
     [TestFixture]
     public class Execution_StartTests
     {
+        private Execution execution;
+
+        [SetUp]
+        public void SetUp()
+        {
+            execution = new Execution("SectionName");
+        }
+
         [Test]
         public void ShouldStartStopwatch()
         {
-            //Arrange
-            Execution execution = new Execution("SectionName");
-
             //Act
             execution.Start();
 
@@ -21,6 +26,27 @@ namespace Rychusoft.Counters.ExecutionTimeCounter.Tests.UnitTests.ExecutionTests
 
             //Assert
             Assert.Greater(execution.Elapsed, new TimeSpan(0));
+        }
+
+        [Test]
+        public void ShouldSetStartedDate()
+        {
+            //Act
+            execution.Start();
+
+            //Assert
+            Assert.LessOrEqual(execution.Started, DateTime.Now);
+            Assert.GreaterOrEqual(execution.Started, DateTime.Now.AddSeconds(-1));
+        }
+
+        [Test]
+        public void ShouldThrowWhenStartedAgain()
+        {
+            //Arrange
+            execution.Start();
+
+            //Act & Assert
+            Assert.Throws<ExecutionAlreadyStartedException>(() => execution.Start());
         }
     }
 }

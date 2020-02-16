@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using Rychusoft.Counters.ExecutionTime;
 using System;
 
-namespace Rychusoft.Counters.ExecutionTimeCounter.Tests.UnitTests.ExecutionTests
+namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTests
 {
     [TestFixture]
     public class Execution_ContructorTests
@@ -43,6 +42,16 @@ namespace Rychusoft.Counters.ExecutionTimeCounter.Tests.UnitTests.ExecutionTests
 
             //Assert
             Assert.AreEqual(new TimeSpan(0), execution.Elapsed);
+        }
+
+        [Test]
+        public void ShouldInitializeStartedDateTimeToZero()
+        {
+            //Arrange & Act
+            var execution = new Execution("SectionName");
+
+            //Assert
+            Assert.AreEqual(new DateTime(0, DateTimeKind.Local), execution.Started);
         }
     }
 }

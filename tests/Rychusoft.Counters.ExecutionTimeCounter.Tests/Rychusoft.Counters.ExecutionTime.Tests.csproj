@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ModuleTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Rychusoft.Counters.ExecutionTimeCounter\Rychusoft.Counters.ExecutionTime.csproj" />
   </ItemGroup>
 
