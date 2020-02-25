@@ -2,7 +2,7 @@
 
 namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterTests
 {
-    public class ExecutionTimeCounterTestsBase
+    public abstract class ExecutionTimeCounterTestsBase
     {
         protected void CreateExecutions(int iterations, int sleepTime)
         {

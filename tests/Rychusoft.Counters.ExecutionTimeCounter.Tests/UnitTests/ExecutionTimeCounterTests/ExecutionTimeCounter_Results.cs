@@ -8,7 +8,7 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
     [TestFixture]
     public class ExecutionTimeCounter_Results : ExecutionTimeCounterTestsBase
     {
-        private int iterations = 5;
+        private readonly int iterations = 5;
 
         [SetUp]
         public void SetUp()
@@ -86,7 +86,7 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         }
 
         [Test]
-        public void ShouldComputeMedianCorrectly()
+        public void ForOddExecutionsCount_ShouldComputeMedianCorrectly()
         {
             //Act
             for (int j = 0; j < 32; j++)
@@ -106,6 +106,67 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
                 Assert.GreaterOrEqual(results.Single(r => r.SectionName == i.ToString()).Median, TimeSpan.FromMilliseconds(18));
                 Assert.LessOrEqual(results.Single(r => r.SectionName == i.ToString()).Median, TimeSpan.FromMilliseconds(22));
             }
+        }
+
+        [Test]
+        public void ForEvenUnsortedExecutionsCount_ShouldComputeMedianCorrectly()
+        {
+            //Act
+            var execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(5);
+            ExecutionTimeCounter.Stop(execution);
+
+            execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(1);
+            ExecutionTimeCounter.Stop(execution);
+
+            execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(3);
+            ExecutionTimeCounter.Stop(execution);
+
+            execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(7);
+            ExecutionTimeCounter.Stop(execution);
+
+            //Assert
+            var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
+
+            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3.5));
+            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(4.5));
+        }
+
+        [Test]
+        public void ForOneExecution_ShouldComputeMedianCorrectly()
+        {
+            //Act
+            var execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(4);
+            ExecutionTimeCounter.Stop(execution);
+
+            //Assert
+            var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
+
+            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
+            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
+        }
+
+        [Test]
+        public void ForTwoExecutions_ShouldComputeMedianCorrectly()
+        {
+            //Act
+            var execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(3);
+            ExecutionTimeCounter.Stop(execution);
+
+            execution = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(5);
+            ExecutionTimeCounter.Stop(execution);
+
+            //Assert
+            var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
+
+            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
+            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
         }
     }
 }

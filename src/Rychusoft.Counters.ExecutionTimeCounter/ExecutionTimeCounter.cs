@@ -8,7 +8,7 @@ namespace Rychusoft.Counters.ExecutionTime
 {
     public static class ExecutionTimeCounter
     {
-        private static ConcurrentDictionary<string, List<Execution>> executions = new ConcurrentDictionary<string, List<Execution>>();
+        private static readonly ConcurrentDictionary<string, List<Execution>> executions = new ConcurrentDictionary<string, List<Execution>>();
 
         public static IReadOnlyDictionary<string, IReadOnlyCollection<Execution>> Executions
             => executions.ToDictionary(e => e.Key, e => (IReadOnlyCollection<Execution>)e.Value);
@@ -64,18 +64,18 @@ namespace Rychusoft.Counters.ExecutionTime
             if (executions.Count == 1)
                 return executions[0].Elapsed;
 
+            var sortedExecutions = executions.OrderBy(e => e.Elapsed.TotalMilliseconds);
+
             if (executions.Count % 2 == 0)
             {
-                int index1 = (int)Math.Ceiling(executions.Count / 2.0);
-                int index2 = (int)Math.Floor(executions.Count / 2.0);
+                int index1 = executions.Count / 2;
+                int index2 = index1 - 1;
 
-                var milisecondsMedian = (executions[index1].Elapsed.TotalMilliseconds + executions[index2].Elapsed.TotalMilliseconds) / 2.0;
+                var milisecondsMedian = (sortedExecutions.ElementAt(index1).Elapsed.TotalMilliseconds + executions.ElementAt(index2).Elapsed.TotalMilliseconds) / 2.0;
                 return TimeSpan.FromMilliseconds(milisecondsMedian);
             }
 
-            return executions
-                .OrderBy(e => e.Elapsed.TotalMilliseconds)
-                .ElementAt(executions.Count / 2).Elapsed;
+            return sortedExecutions.ElementAt(executions.Count / 2).Elapsed;
         }
 
         public static string ResultsToString()
