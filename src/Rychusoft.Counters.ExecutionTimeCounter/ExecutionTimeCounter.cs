@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Rychusoft.Counters.ExecutionTime
 {
@@ -80,7 +81,20 @@ namespace Rychusoft.Counters.ExecutionTime
 
         public static string ResultsToString()
         {
-            return string.Empty;
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var result in Results())
+            {
+                sb.AppendLine($"{result.SectionName}:");
+                sb.AppendLine($"  Average: {result.Average}:");
+                sb.AppendLine($"  Median: {result.Median}:");
+                sb.AppendLine($"  Fastest: {result.Fastest}:");
+                sb.AppendLine($"  Slowest: {result.Slowest}:");
+                sb.AppendLine($"  Executions: {result.Executions.Count}:");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
     }
 }

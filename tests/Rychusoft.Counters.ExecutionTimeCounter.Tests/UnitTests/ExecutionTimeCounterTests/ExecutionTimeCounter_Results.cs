@@ -27,9 +27,10 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         [Test]
         public void ShouldReturnAllCodeSections()
         {
-            //Assert
+            //Act
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             Assert.AreEqual(iterations, results.Count);
 
             foreach (var result in results)
@@ -39,9 +40,10 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         [Test]
         public void ShouldReturnAllExecutions()
         {
-            //Assert
+            //Act
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             foreach (var result in results)
                 Assert.AreEqual(iterations * 3, result.Executions.Count);
         }
@@ -49,9 +51,10 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         [Test]
         public void ShouldComputeAverageCorrectly()
         {
-            //Assert
+            //Act
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             foreach (var result in results)
             {
                 Assert.GreaterOrEqual(result.Average, TimeSpan.FromMilliseconds(18));
@@ -62,9 +65,10 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         [Test]
         public void ShouldComputeFastestCorrectly()
         {
-            //Assert
+            //Act
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             foreach (var result in results)
             {
                 Assert.GreaterOrEqual(result.Fastest, TimeSpan.FromMilliseconds(8));
@@ -75,9 +79,10 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         [Test]
         public void ShouldComputeSlowestCorrectly()
         {
-            //Assert
+            //Act
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             foreach (var result in results)
             {
                 Assert.GreaterOrEqual(result.Slowest, TimeSpan.FromMilliseconds(28));
@@ -96,9 +101,9 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
                 ExecutionTimeCounter.Stop(execution);
             }
 
-            //Assert
             var results = ExecutionTimeCounter.Results();
 
+            //Assert
             Assert.LessOrEqual(results.Single(r => r.SectionName == "0").Median, TimeSpan.FromMilliseconds(3));
 
             for (int i = 1; i < iterations; i++)
@@ -128,9 +133,9 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             Thread.Sleep(7);
             ExecutionTimeCounter.Stop(execution);
 
-            //Assert
             var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
+            //Assert
             Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3.5));
             Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(4.5));
         }
@@ -143,9 +148,9 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             Thread.Sleep(4);
             ExecutionTimeCounter.Stop(execution);
 
-            //Assert
             var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
+            //Assert
             Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
             Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
         }
@@ -162,9 +167,9 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             Thread.Sleep(5);
             ExecutionTimeCounter.Stop(execution);
 
-            //Assert
             var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
+            //Assert
             Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
             Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
         }
