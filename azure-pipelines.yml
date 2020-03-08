@@ -3,7 +3,7 @@ trigger:
 - develop
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
@@ -24,6 +24,13 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Test'
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Stop SonarCloud scan'
