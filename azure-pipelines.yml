@@ -15,12 +15,8 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
 
-- task: DotNetCoreCLI@2
+- script: dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed
   displayName: 'Create nuget package'
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/Rychusoft.Counters.ExecutionTime.csproj'
-    versioningScheme: 'byBuildNumber'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish build artifact'
