@@ -72,11 +72,12 @@ namespace Rychusoft.Counters.ExecutionTime
                 int index1 = executions.Count / 2;
                 int index2 = index1 - 1;
 
-                var milisecondsMedian = (sortedExecutions.ElementAt(index1).Elapsed.TotalMilliseconds + executions.ElementAt(index2).Elapsed.TotalMilliseconds) / 2.0;
+                var milisecondsMedian = (sortedExecutions.ElementAt(index1).Elapsed.TotalMilliseconds + sortedExecutions.ElementAt(index2).Elapsed.TotalMilliseconds) / 2.0;
                 return TimeSpan.FromMilliseconds(milisecondsMedian);
             }
 
-            return sortedExecutions.ElementAt(executions.Count / 2).Elapsed;
+            int medianIndex = (executions.Count - 1) / 2;
+            return sortedExecutions.ElementAt(medianIndex).Elapsed;
         }
 
         public static string ResultsToString()

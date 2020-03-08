@@ -7,12 +7,6 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
     [TestFixture]
     public class ExecutionTimeCounter_Stop : ExecutionTimeCounterTestsBase
     {
-        [TearDown]
-        public void TearDown()
-        {
-            ExecutionTimeCounter.Reset();
-        }
-
         [Test]
         public void ShouldStopStopwatch()
         {
