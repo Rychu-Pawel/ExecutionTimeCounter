@@ -7,6 +7,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  packageVersion: '1.0.$(Build.BuildNumber)'
 
 steps:
 - script: dotnet restore
@@ -15,7 +16,7 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
 
-- script: dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed
+- script: dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(packageVersion) --verbosity Detailed
   displayName: 'Create nuget package'
 
 - task: PublishBuildArtifacts@1
