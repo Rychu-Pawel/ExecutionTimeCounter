@@ -27,30 +27,30 @@ Console.WriteLine(result);
 Output:
 ```
 Cleanup:
-  Average: 00:00:00.1505103:
-  Median: 00:00:00.1503439:
-  Fastest: 00:00:00.1501001:
-  Slowest: 00:00:00.1512535:
-  Executions: 4:
+  Average: 00:00:00.1505103
+  Median: 00:00:00.1503439
+  Fastest: 00:00:00.1501001
+  Slowest: 00:00:00.1512535
+  Executions: 4
 
 Meaningful 1:
-  Average: 00:00:05.0005940:
-  Median: 00:00:05.0003949:
-  Fastest: 00:00:05.0001948:
-  Slowest: 00:00:05.0013913:
-  Executions: 4:
+  Average: 00:00:05.0005940
+  Median: 00:00:05.0003949
+  Fastest: 00:00:05.0001948
+  Slowest: 00:00:05.0013913
+  Executions: 4
 
 Meaningful 2:
-  Average: 00:00:01.2006227:
-  Median: 00:00:01.2005889:
-  Fastest: 00:00:01.2003572:
-  Slowest: 00:00:01.2009559:
-  Executions: 4:
+  Average: 00:00:01.2006227
+  Median: 00:00:01.2005889
+  Fastest: 00:00:01.2003572
+  Slowest: 00:00:01.2009559
+  Executions: 4
 
 Prepare:
-  Average: 00:00:00.2806096:
-  Median: 00:00:00.2804891:
-  Fastest: 00:00:00.2801096:
-  Slowest: 00:00:00.2811026:
-  Executions: 4:
+  Average: 00:00:00.2806096
+  Median: 00:00:00.2804891
+  Fastest: 00:00:00.2801096
+  Slowest: 00:00:00.2811026
+  Executions: 4
 ```
