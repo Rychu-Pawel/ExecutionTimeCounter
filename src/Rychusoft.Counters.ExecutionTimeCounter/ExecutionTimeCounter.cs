@@ -86,11 +86,11 @@ namespace Rychusoft.Counters.ExecutionTime
             foreach (var result in Results())
             {
                 sb.AppendLine($"{result.SectionName}:");
-                sb.AppendLine($"  Average: {result.Average}:");
-                sb.AppendLine($"  Median: {result.Median}:");
-                sb.AppendLine($"  Fastest: {result.Fastest}:");
-                sb.AppendLine($"  Slowest: {result.Slowest}:");
-                sb.AppendLine($"  Executions: {result.Executions.Count}:");
+                sb.AppendLine($"  Average: {result.Average}");
+                sb.AppendLine($"  Median: {result.Median}");
+                sb.AppendLine($"  Fastest: {result.Fastest}");
+                sb.AppendLine($"  Slowest: {result.Slowest}");
+                sb.AppendLine($"  Executions: {result.Executions.Count}");
                 sb.AppendLine();
             }
 
