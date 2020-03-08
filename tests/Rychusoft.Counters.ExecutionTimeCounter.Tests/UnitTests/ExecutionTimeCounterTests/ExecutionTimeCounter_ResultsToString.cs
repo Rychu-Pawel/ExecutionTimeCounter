@@ -17,12 +17,6 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             CreateExecutions(iterations, 30);
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            ExecutionTimeCounter.Reset();
-        }
-
         [Test]
         public void ShouldContainAllSectionNames()
         {

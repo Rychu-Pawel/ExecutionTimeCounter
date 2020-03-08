@@ -36,7 +36,7 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTests
 
             //Assert
             Assert.LessOrEqual(execution.Started, DateTime.Now);
-            Assert.GreaterOrEqual(execution.Started, DateTime.Now.AddSeconds(-1));
+            Assert.GreaterOrEqual(execution.Started, DateTime.Now.AddMinutes(-1));
         }
 
         [Test]

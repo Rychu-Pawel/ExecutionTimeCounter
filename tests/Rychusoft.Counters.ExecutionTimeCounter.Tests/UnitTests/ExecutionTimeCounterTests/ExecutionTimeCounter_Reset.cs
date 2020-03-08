@@ -5,12 +5,6 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
     [TestFixture]
     public class ExecutionTimeCounter_Reset : ExecutionTimeCounterTestsBase
     {
-        [TearDown]
-        public void TearDown()
-        {
-            ExecutionTimeCounter.Reset();
-        }
-
         [Test]
         public void ShouldClearExecutions()
         {

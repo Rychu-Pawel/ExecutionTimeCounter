@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -16,12 +17,6 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             CreateExecutions(iterations, 10);
             CreateExecutions(iterations, 20);
             CreateExecutions(iterations, 30);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            ExecutionTimeCounter.Reset();
         }
 
         [Test]
@@ -57,8 +52,8 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             //Assert
             foreach (var result in results)
             {
-                Assert.GreaterOrEqual(result.Average, TimeSpan.FromMilliseconds(18));
-                Assert.LessOrEqual(result.Average, TimeSpan.FromMilliseconds(22));
+                double averageExpected = executionsDictionary[result.SectionName].Average();
+                Assert.AreEqual(averageExpected, result.Average.TotalMilliseconds, 0.001);
             }
         }
 
@@ -71,8 +66,8 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             //Assert
             foreach (var result in results)
             {
-                Assert.GreaterOrEqual(result.Fastest, TimeSpan.FromMilliseconds(8));
-                Assert.LessOrEqual(result.Fastest, TimeSpan.FromMilliseconds(12));
+                double fastestExpected = executionsDictionary[result.SectionName].Min();
+                Assert.AreEqual(fastestExpected, result.Fastest.TotalMilliseconds, 0.001);
             }
         }
 
@@ -85,8 +80,8 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             //Assert
             foreach (var result in results)
             {
-                Assert.GreaterOrEqual(result.Slowest, TimeSpan.FromMilliseconds(28));
-                Assert.LessOrEqual(result.Slowest, TimeSpan.FromMilliseconds(32));
+                double slowestExpected = executionsDictionary[result.SectionName].Max();
+                Assert.AreEqual(slowestExpected, result.Slowest.TotalMilliseconds, 0.001);
             }
         }
 
@@ -99,17 +94,20 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
                 var execution = ExecutionTimeCounter.Start("0");
                 Thread.Sleep(1);
                 ExecutionTimeCounter.Stop(execution);
+
+                executionsDictionary["0"].Add(execution.Elapsed.TotalMilliseconds);
             }
 
             var results = ExecutionTimeCounter.Results();
 
             //Assert
-            Assert.LessOrEqual(results.Single(r => r.SectionName == "0").Median, TimeSpan.FromMilliseconds(3));
+            var medianExpected = executionsDictionary["0"].OrderBy(x => x).ElementAt(23);
+            Assert.AreEqual(medianExpected, results.Single(r => r.SectionName == "0").Median.TotalMilliseconds, 0.001);
 
             for (int i = 1; i < iterations; i++)
             {
-                Assert.GreaterOrEqual(results.Single(r => r.SectionName == i.ToString()).Median, TimeSpan.FromMilliseconds(18));
-                Assert.LessOrEqual(results.Single(r => r.SectionName == i.ToString()).Median, TimeSpan.FromMilliseconds(22));
+                medianExpected = executionsDictionary[i.ToString()].OrderBy(x => x).ElementAt(7);
+                Assert.AreEqual(medianExpected, results.Single(r => r.SectionName == i.ToString()).Median.TotalMilliseconds, 0.001);
             }
         }
 
@@ -117,27 +115,39 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
         public void ForEvenUnsortedExecutionsCount_ShouldComputeMedianCorrectly()
         {
             //Act
+            List<double> executions = new List<double>();
+
             var execution = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(5);
             ExecutionTimeCounter.Stop(execution);
+
+            executions.Add(execution.Elapsed.TotalMilliseconds);
 
             execution = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(1);
             ExecutionTimeCounter.Stop(execution);
 
+            executions.Add(execution.Elapsed.TotalMilliseconds);
+
             execution = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(3);
             ExecutionTimeCounter.Stop(execution);
+
+            executions.Add(execution.Elapsed.TotalMilliseconds);
 
             execution = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(7);
             ExecutionTimeCounter.Stop(execution);
 
-            var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
+            executions.Add(execution.Elapsed.TotalMilliseconds);
+
+            var orderedExecutions = executions.OrderBy(x => x);
+
+            var medianExpected = (orderedExecutions.ElementAt(1) + orderedExecutions.ElementAt(2)) / 2.0;
+            var medianActual = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
             //Assert
-            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3.5));
-            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(4.5));
+            Assert.AreEqual(medianExpected, medianActual.TotalMilliseconds, 0.001);
         }
 
         [Test]
@@ -151,27 +161,57 @@ namespace Rychusoft.Counters.ExecutionTime.Tests.UnitTests.ExecutionTimeCounterT
             var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
             //Assert
-            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
-            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
+            Assert.AreEqual(execution.Elapsed, median);
         }
 
         [Test]
         public void ForTwoExecutions_ShouldComputeMedianCorrectly()
         {
             //Act
-            var execution = ExecutionTimeCounter.Start("TEST");
+            var execution1 = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(3);
-            ExecutionTimeCounter.Stop(execution);
+            ExecutionTimeCounter.Stop(execution1);
 
-            execution = ExecutionTimeCounter.Start("TEST");
+            var execution2 = ExecutionTimeCounter.Start("TEST");
             Thread.Sleep(5);
-            ExecutionTimeCounter.Stop(execution);
+            ExecutionTimeCounter.Stop(execution2);
 
+            var medianExpected = (execution1.Elapsed.TotalMilliseconds + execution2.Elapsed.TotalMilliseconds) / 2.0;
             var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
 
             //Assert
-            Assert.GreaterOrEqual(median, TimeSpan.FromMilliseconds(3));
-            Assert.LessOrEqual(median, TimeSpan.FromMilliseconds(5));
+            Assert.AreEqual(medianExpected, median.TotalMilliseconds, 0.001);
+        }
+
+        [Test]
+        public void ForThreeExecutions_ShouldComputeMedianCorrectly()
+        {
+            //Act
+            List<double> executions = new List<double>();
+
+            var execution1 = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(1);
+            ExecutionTimeCounter.Stop(execution1);
+
+            executions.Add(execution1.Elapsed.TotalMilliseconds);
+
+            var execution2 = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(6);
+            ExecutionTimeCounter.Stop(execution2);
+
+            executions.Add(execution2.Elapsed.TotalMilliseconds);
+
+            var execution3 = ExecutionTimeCounter.Start("TEST");
+            Thread.Sleep(1);
+            ExecutionTimeCounter.Stop(execution3);
+
+            executions.Add(execution3.Elapsed.TotalMilliseconds);
+
+            var medianExpected = executions.OrderBy(x => x).ElementAt(1);
+            var median = ExecutionTimeCounter.Results().Single(r => r.SectionName == "TEST").Median;
+
+            //Assert
+            Assert.AreEqual(medianExpected, median.TotalMilliseconds, 0.001);
         }
     }
 }
