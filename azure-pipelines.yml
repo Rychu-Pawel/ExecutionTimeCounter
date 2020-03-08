@@ -21,6 +21,9 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'Rychu-Pawel_ExecutionTimeCounter'
     projectName: 'ExecutionTimeCounter'
+    extraProperties: |
+      sonar.cs.vscoveragexml.reportsPaths=**/*.coverage
+      sonar.cs.vstest.reportsPaths=**/*.trx
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
