@@ -28,8 +28,12 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
 
-- script: dotnet test --configuration $(buildConfiguration) --collect "Code coverage' --no-build --logger trx
-  displayName: 'Test'
+- task: DotNetCoreCLI@2
+  displayName: 'Tests'
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage" --results-directory $(Build.ArtifactStagingDirectory)'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Stop SonarCloud scan'
