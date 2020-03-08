@@ -90,7 +90,7 @@ namespace Rychusoft.Counters.ExecutionTime
                 sb.AppendLine($"  Median: {result.Median}:");
                 sb.AppendLine($"  Fastest: {result.Fastest}:");
                 sb.AppendLine($"  Slowest: {result.Slowest}:");
-                sb.AppendLine($"  Executions: {result.Executions.Count}:");
+                sb.AppendLine($"  Executions: {result.Executions.Count}");
                 sb.AppendLine();
             }
 
