@@ -14,3 +14,9 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    modifyOutputPath: false
