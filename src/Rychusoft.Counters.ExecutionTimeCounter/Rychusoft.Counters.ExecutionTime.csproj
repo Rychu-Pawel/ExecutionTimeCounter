@@ -5,7 +5,7 @@
     <Version>1.0</Version>
     <Authors>Rychusoft</Authors>
     <Product>ExecutionTimeCounter</Product>
-    <Description>Easy to use library for measuring code execution time:
+    <Description>Easy to use library for measuring execution times of code sections:
 
 var execution = ExecutionTimeCounter.Start("SLEEP EXECUTION");
 Thread.Sleep(5);
@@ -19,6 +19,14 @@ Console.WriteLine(result);</Description>
     <RepositoryUrl>https://github.com/Rychu-Pawel/ExecutionTimeCounter</RepositoryUrl>
     <PackageTags>Execution time performance counter</PackageTags>
     <PackageReleaseNotes>-</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
