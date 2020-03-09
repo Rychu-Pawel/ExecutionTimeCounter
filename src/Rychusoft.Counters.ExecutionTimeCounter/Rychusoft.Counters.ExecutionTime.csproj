@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0</Version>
+    <Authors>Rychusoft</Authors>
+    <Product>ExecutionTimeCounter</Product>
+    <Description>Easy to use library for measuring execution times of code sections:
+
+var execution = ExecutionTimeCounter.Start("SLEEP EXECUTION");
+Thread.Sleep(5);
+ExecutionTimeCounter.Stop(execution);
+
+var result = ExecutionTimeCounter.ResultsToString();
+Console.WriteLine(result);</Description>
+    <Copyright>© Pawel Rychlicki 2020</Copyright>
+    <PackageProjectUrl>https://github.com/Rychu-Pawel/ExecutionTimeCounter</PackageProjectUrl>
+    <PackageIconUrl>http://pawelrychlicki.pl/favicon.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Rychu-Pawel/ExecutionTimeCounter</RepositoryUrl>
+    <PackageTags>Execution time performance counter</PackageTags>
+    <PackageReleaseNotes>-</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Rychusoft.Counters.ExecutionTimeCounter</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

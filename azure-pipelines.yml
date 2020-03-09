@@ -1,0 +1,56 @@
+trigger:
+- master
+- develop
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  packageVersion: '1.0.$(Build.BuildNumber)'
+
+steps:
+- script: |
+          dotnet restore
+          dotnet add .\tests\Rychusoft.Counters.ExecutionTimeCounter.Tests\Rychusoft.Counters.ExecutionTime.Tests.csproj package coverlet.msbuild
+  displayName: 'Restore packages'
+
+- task: SonarCloudPrepare@1
+  displayName: 'Start SonarCloud scan'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'rychu-pawel-github'
+    scannerMode: 'MSBuild'
+    projectKey: 'Rychu-Pawel_ExecutionTimeCounter'
+    projectName: 'ExecutionTimeCounter'
+    extraProperties: |
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/*.coverage
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/*.trx
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Tests'
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage" /p:CoverletOutputFormat=opencover'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Stop SonarCloud scan'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud scan results'
+  inputs:
+    pollingTimeoutSec: '300'
+
+- script: dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(packageVersion) --verbosity Detailed
+  displayName: 'Create nuget package'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
