@@ -12,7 +12,7 @@ variables:
 steps:
 - script: |
           dotnet restore
-          dotnet add package OpenCover
+          dotnet add .\tests\Rychusoft.Counters.ExecutionTimeCounter.Tests\Rychusoft.Counters.ExecutionTime.Tests.csproj package OpenCover
   displayName: 'Restore packages'
 
 - task: SonarCloudPrepare@1
