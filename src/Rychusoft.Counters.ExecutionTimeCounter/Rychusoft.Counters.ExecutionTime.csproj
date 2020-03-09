@@ -20,6 +20,7 @@ Console.WriteLine(result);</Description>
     <PackageTags>Execution time performance counter</PackageTags>
     <PackageReleaseNotes>-</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Rychusoft.Counters.ExecutionTimeCounter</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
