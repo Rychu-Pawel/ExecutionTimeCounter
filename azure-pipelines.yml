@@ -24,8 +24,8 @@ steps:
     projectKey: 'Rychu-Pawel_ExecutionTimeCounter'
     projectName: 'ExecutionTimeCounter'
     extraProperties: |
-      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/*.coverage,$(Build.SourcesDirectory)/**/*.coverage
-      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/*.trx,$(Build.SourcesDirectory)/**/*.trx
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/*.coverage
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/*.trx
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
