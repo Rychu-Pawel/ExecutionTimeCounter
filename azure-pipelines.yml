@@ -10,7 +10,8 @@ variables:
   packageVersion: '1.0.$(Build.BuildNumber)'
 
 steps:
-- script: dotnet restore
+- script: |
+          dotnet restore
           dotnet add package OpenCover
   displayName: 'Restore packages'
 
