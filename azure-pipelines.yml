@@ -11,6 +11,7 @@ variables:
 
 steps:
 - script: dotnet restore
+          dotnet add package OpenCover
   displayName: 'Restore packages'
 
 - task: SonarCloudPrepare@1
