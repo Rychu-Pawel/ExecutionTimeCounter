@@ -10,9 +10,7 @@ variables:
   packageVersion: '1.0.$(Build.BuildNumber)'
 
 steps:
-- script: |
-          dotnet restore
-          dotnet add .\tests\Rychusoft.Counters.ExecutionTimeCounter.Tests\Rychusoft.Counters.ExecutionTime.Tests.csproj package OpenCover
+- script: dotnet restore
   displayName: 'Restore packages'
 
 - task: SonarCloudPrepare@1
@@ -35,7 +33,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*Tests.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage"'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage" /p:CoverletOutputFormat=cobertura'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Stop SonarCloud scan'
