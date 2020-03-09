@@ -10,7 +10,9 @@ variables:
   packageVersion: '1.0.$(Build.BuildNumber)'
 
 steps:
-- script: dotnet restore
+- script: |
+          dotnet restore
+          dotnet add .\tests\Rychusoft.Counters.ExecutionTimeCounter.Tests\Rychusoft.Counters.ExecutionTime.Tests.csproj package coverlet.msbuild
   displayName: 'Restore packages'
 
 - task: SonarCloudPrepare@1
@@ -22,8 +24,8 @@ steps:
     projectKey: 'Rychu-Pawel_ExecutionTimeCounter'
     projectName: 'ExecutionTimeCounter'
     extraProperties: |
-      sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)/**/*.coverage
-      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/*.trx
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/*.coverage,$(Build.SourcesDirectory)/**/*.coverage
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/*.trx,$(Build.SourcesDirectory)/**/*.trx
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build'
@@ -33,7 +35,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*Tests.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage" /p:CoverletOutputFormat=cobertura'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect "Code coverage" /p:CoverletOutputFormat=opencover'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Stop SonarCloud scan'
