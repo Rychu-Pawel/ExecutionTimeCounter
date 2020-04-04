@@ -2,7 +2,7 @@
 Tool  | Status
 -------- | :------------:
 SonarCloud | [![reliability](https://sonarcloud.io/api/project_badges/measure?project=Rychu-Pawel_ExecutionTimeCounter&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Rychu-Pawel_ExecutionTimeCounter) [![security](https://sonarcloud.io/api/project_badges/measure?project=Rychu-Pawel_ExecutionTimeCounter&metric=security_rating)](https://sonarcloud.io/dashboard?id=Rychu-Pawel_ExecutionTimeCounter) [![vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Rychu-Pawel_ExecutionTimeCounter&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Rychu-Pawel_ExecutionTimeCounter)
-Nuget | [![Nuget](https://img.shields.io/nuget/v/Rychusoft.Counters.ExecutionTime.svg?style=flat)](https://www.nuget.org/packages/Rychusoft.Counters.ExecutionTime/)
+Nuget | [![Nuget](https://img.shields.io/nuget/v/Rychusoft.Counters.ExecutionTimeCounter.svg?style=flat)](https://www.nuget.org/packages/Rychusoft.Counters.ExecutionTimeCounter/)
 Code coverage | [![coverage](https://sonarcloud.io/api/project_badges/measure?project=Rychu-Pawel_ExecutionTimeCounter&metric=coverage)](https://sonarcloud.io/dashboard?id=Rychu-Pawel_ExecutionTimeCounter)
 
 # ExecutionTimeCounter
